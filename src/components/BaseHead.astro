@@ -2,6 +2,7 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
+import profile from '../profile';
 
 export interface Props {
 	title: string;
@@ -37,3 +38,25 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+	{JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'Person',
+		name: profile.name,
+		jobTitle: profile.roles?.join(', '),
+		description: description,
+		url: Astro.url?.toString?.() ?? undefined,
+		email: profile.email || undefined,
+		telephone: profile.phone || undefined,
+		sameAs: [
+			profile.links?.linkedin,
+			profile.links?.github,
+			profile.links?.twitter,
+			profile.links?.scholar,
+			profile.links?.website,
+		].filter(Boolean),
+		address: profile.location ? { '@type': 'PostalAddress', addressLocality: profile.location } : undefined,
+	})}
+	</script>

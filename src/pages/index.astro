@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import HorizontalCard from "../components/HorizontalCard.astro";
 import { getCollection } from "astro:content";
 import createSlug from "../lib/createSlug"
+import profile from "../profile";
 
 const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
@@ -10,22 +11,18 @@ const last_posts = posts.slice(0, 3);
 ---
 
 <BaseLayout sideBarActiveItemID="home">
-  <div class="pb-12 mt-5">
+  <div class="pb-10 mt-5">
     <div class="text-xl py-1">Hey there 👋</div>
-    <div class="text-5xl font-bold">I'm Manuel Ernesto</div>
-    <div class="text-3xl py-3 font-bold">Software Engineer and Entrepreneur</div>
-    <div class="py-2">
-      <text class="text-lg">
-        This is <b>Astrofy</b> a free and open-source template for your Personal Portfolio Website built with Astro and TailwindCSS.
-        Create in minutes a website with Blog, CV, Project Section, Store and RSS Feed. I hope you find
-        it useful!
-      </text>
+    <div class="text-5xl font-bold">I'm {profile.name}</div>
+    <div class="text-2xl py-3 font-semibold">{profile.roles.join(" · ")}</div>
+    <div class="py-2 max-w-3xl">
+      <p class="text-lg">{profile.headline}</p>
     </div>
-    <div class="mt-8">
-      <a class="btn" href="https://twitter.com/manuelernestog" target="_blank"> Let's connect!</a>
-      <a href="https://github.com/manuelernestog/astrofy" target="_blank" class="btn btn-outline ml-5">
-        Get This template
-      </a>
+    <div class="mt-6 flex flex-wrap gap-3">
+      {profile.links.resume && <a class="btn" href={profile.links.resume} target="_blank">Download Resume</a>}
+      <a class="btn btn-outline" href="/cv">View Resume</a>
+      {profile.links.linkedin && <a class="btn btn-outline" href={profile.links.linkedin} target="_blank">LinkedIn</a>}
+      {profile.links.github && <a class="btn btn-outline" href={profile.links.github} target="_blank">GitHub</a>}
     </div>
   </div>
 
@@ -34,30 +31,31 @@ const last_posts = posts.slice(0, 3);
   </div>
 
   <HorizontalCard
-    title="Demo Project 1"
+    title="Production ML System — Recsys CTR + Ranker"
     img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    desc="End-to-end pipeline (PyTorch, Airflow, AWS) with online A/B testing; improved CTR by 7.3% over baseline."
     url="#"
-    badge="NEW"
+    badge="ML"
   />
   <div class="divider my-0"></div>
   <HorizontalCard
-    title="Demo Project 2"
+    title="Scalable Backend — Event-driven microservices"
     img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    desc="Node.js/TypeScript services on Kafka + Postgres; 99.95% SLO, 2x throughput; full IaC and observability."
     url="#"
+    badge="SWE"
   />
   <div class="divider my-0"></div>
   <HorizontalCard
-    title="Demo Project 3"
+    title="Research — Paper/Benchmark"
     img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    desc="Reproducible experiments, SOTA baseline comparisons, and open-source code; accepted at [venue]."
     url="#"
-    badge="FOSS"
+    badge="Research"
   />
 
   <div>
-    <div class="text-3xl w-full font-bold mb-5 mt-10">Latest from blog</div>
+  <div class="text-3xl w-full font-bold mb-5 mt-10">Latest writing</div>
   </div>
 
   {
